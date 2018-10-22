@@ -1,13 +1,17 @@
+"""
+Name: Kunting Qi
+Course: CSE 465
+Description: this is the python implementation of homework 4
+Use dictionary to store a student's information
+and use list to contain all the dict of each student's information 
+"""
+import sys
+
 def fillTmp(modelString, personInfo):
-	resultString = modelString.format(
-		NAME=personInfo["name"], COURSE=personInfo["course"],
-		Id=personInfo["id"], DUE=personInfo["due"], 
-		SUBMITTED=personInfo["submitted"], MINUTESLATE=personInfo["minuteslate"],
-		LATEDEDUCTION=personInfo["latededuction"], P1=personInfo["p1"],
-		P1COMMENTS=personInfo["p1comments"], P2=personInfo["p2"],
-		P2COMMENTS=personInfo["p2comments"], SUBTOTAL=personInfo["subtotal"],
-		TOTAL=personInfo["total"]		
-	) # replace part in model string with customized personal information
+	# replace part in model string with customized personal information
+	resultString = modelString;
+	for key in personInfo:
+		resultString = resultString.replace("<<" + key + ">>", personInfo[key])
 	return resultString
 
 def writeInformation(infoString, outputFilename):
@@ -17,15 +21,16 @@ def writeInformation(infoString, outputFilename):
 	targetFile.close() # close file
 
 def processTmp(modelFilename):
+	
 	totalString = ""
 	modelFile = open(modelFilename) # open file
 	for i in modelFile.readlines():
 		totalString += i
-	modelFile.close() # close file
-	totalString = totalString.replace("<<", "{")
-	totalString = totalString.replace(">>", "}")
+	modelFile.close() # close file 
 	return totalString
 
+
+# thie method is TODO
 def readInfoFile(infoFilename):
 	""" read the info file, and return a list containing dict
 		:param 
@@ -40,20 +45,29 @@ def readInfoFile(infoFilename):
 				]
 	"""
 	# open the file
-	
+	infoFile = open(infoFilename)
 	# using for loop to construct the result
-	
-	# close file
-	
+	informations = infoFile.readlines()
+	result = []
+	dataFields = informations[0][:-1].split("\t")
+	for i in range(1, len(informations)):
+		result.append(
+			dict(zip(dataFields, informations[i][:-1].split("\t")))
+		)
+
 	# return the result
-	pass
+	return result
 	
 if __name__ == "__main__":
-	fileInfoName = argv[1] # *.tsv file
-	fileModelName = argv[2] # *.tmp file 
+	fileInfoName = sys.argv[1] # *.tsv file
+	fileModelName = sys.argv[2] # *.tmp file 
 
 	# in a loop read the file
-	persons = infoFile.readlines()
-	for i in person:
-		# seperate information 
-	
+	students = readInfoFile(fileInfoName) # list of dictionarys 
+	modelString = processTmp(fileModelName) # a string of model
+	for i in students:
+		outputFileName = i["ID"] + ".txt"
+		writeInformation(fillTmp(modelString, i), outputFileName)
+	# after the loop is executed
+	# the program finish to write all people's output file
+	# finish --!
