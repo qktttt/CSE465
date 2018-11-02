@@ -3,23 +3,46 @@
 #include <iostream>
 #include <cstring>
 #include <string>
+#include <locale>
 
 using namespace std;
 
 char* ToPigLatin(char * word) {
-	bool calStart = /*if the first character is calpitalized?*/;
-	if(/*first character is vowel*/) {
-		char[] result = /* word + "way"*/;
-	} else { /*if the first character is consonant*/
-		char[] partMoveToEnd = /*from the first letter to until first vowel*/;
-		char[] restOfWord = /*from the first vowel to end*/;
-		char[] result = /* restOfWord + partMoveToEnd + "ay" */; 
+	char wordCopy[43];
+	int length = 0; // this is the length of string
+	while(word[length] != '\0')
+		length++;
+	bool calStart = isupper(word[0]));
+	if(isVowel(word[0], true)) {
+		strcpy(wordCopy, word);
+		strcat(wordCopy, "way");
+	} else {
+		int moveStart = 0;
+		int moveEnd = 0;
+		while(isVowel(word[moveEnd], moveEnd == 0) 
+			and moveEnd < length) {
+			moveEnd++;
+		}
+		int pointer = 0;
+		for(int i = moveEnd; i < length; i++) {
+			wordCopy[pointer++] = word[i];
+		}
+		for(int i = 0; i < moveEnd; i++) {
+			wordCopy[pointer++] = word[i];
+		}
+		strcat(wordCopy, "ay");
 	}
-	if(calStart) result[0] = /*calpitalied the first charater*/;
-	return result;
+	strcpy(word, wordCopy);
+	if(calStart) word[0] = toUpper(word[0]);
+	return word;
 }
 
-
+bool isVowel(char c, bool isStart) {
+	if(isStart and (c == 'y' or c == 'Y') )
+		return true;
+	return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') or 
+	(c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U');
+}
 
 int main(int argc, char** argv) {
 	cout << "Pig Latin version of the 5 words:\n";
