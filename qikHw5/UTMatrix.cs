@@ -11,15 +11,17 @@ namespace UTMatrix {
 	// and includes all N*N elements of the matrix.
 	public class UTMatrixEnumerator : IEnumerator {
 		public int pointer;
-
+		private int[] numbers;
 		public UTMatrixEnumerator(UTMatrix matrix) {
-			pointer = 0;
+			pointer = -1;
+			numbers = matrix.data;
 		}
 		public void Reset() {
-			pointer = 0;
+			pointer = -1;
 		}
 		public bool MoveNext() {
-			return pointer != matrix.data.Length - 1;
+			pointer++;
+			return pointer < numbers.Length;
 		}
 		object IEnumerator.Current {
 			get {
@@ -29,7 +31,7 @@ namespace UTMatrix {
 		public int Current {
 			get {
 				try {
-					return 0;
+					return numbers[pointer];
 				}
 				catch (IndexOutOfRangeException) {
 					throw new InvalidOperationException();
@@ -39,7 +41,7 @@ namespace UTMatrix {
 	}
 	public class UTMatrix : IEnumerable {
 		// Must use a one dimensional array, having minimum size.
-		public int [] data;
+		public int[] data;
 		public int row;
 		public int column;
 		// Construct an NxN Upper Triangular Matrix, initialized to 0
@@ -48,15 +50,8 @@ namespace UTMatrix {
 			row = N;
 			column = N;
 			data = new int[N * N];
-			Random rnd = new Random();
 			for(int i = 0; i < data.Length; i++) {
-				data[i] = int randomNumber = rnd.Next(0, 100000000);
-			}
-
-			for(int i = 0; i < row; i++) {
-				for(int a = 0; a < i; a++) {
-					data[r * column + c] = 0;
-				}
+				data[i] = 0;
 			}
 		}
 		// Returns the size of the matrix
@@ -68,9 +63,9 @@ namespace UTMatrix {
 		public static UTMatrix operator + (UTMatrix a, UTMatrix b) {
 			if(a.row != b.row || a.column != b.column) {
 				// raise Error
-				// TODO
+				throw new InvalidOperationException();
 			}
-			UTMatrix result = new UTMatrix(a.data.Length);
+			UTMatrix result = new UTMatrix(a.row);
 			for(int i = 0; i < a.data.Length; i++) {
 				result.data[i] = a.data[i] + b.data[i];
 			}
@@ -83,7 +78,7 @@ namespace UTMatrix {
 			if(((r + 1) < 1 || (r + 1) > row) 
 				|| ((r + 1) < 1 || (r + 1) > column)) {
 				// raise Error
-				// TODO
+				throw new IndexOutOfRangeException();
 			}
 			data[r * column + c] = val;
 
@@ -94,7 +89,7 @@ namespace UTMatrix {
 			if(((r + 1) < 1 || (r + 1) > row) 
 				|| ((r + 1) < 1 || (r + 1) > column)) {
 				// raise Error
-				// TODO
+				throw new IndexOutOfRangeException();
 			}
 			return data[r * column + c];
 		}
@@ -104,7 +99,7 @@ namespace UTMatrix {
 			if(((r + 1) < 1 || (r + 1) > row) 
 				|| ((r + 1) < 1 || (r + 1) > column)) {
 				// raise Error
-				// TODO
+				throw new IndexOutOfRangeException();
 			}
 			return r * column + c;
 		}	

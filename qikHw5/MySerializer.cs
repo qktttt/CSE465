@@ -28,11 +28,9 @@ namespace Serializer {
 			string[] fieldName = new string[allLines.Length];
 			string[] fieldValue = new string[allLines.Length];
 			for(int i = 0; i < allLines.Length-1; i++) {
-				Console.WriteLine(1);
 				string[] nameAndValue = allLines[i].Split('=');
 				fieldName[i] = nameAndValue[0];
 				fieldValue[i] = nameAndValue[1];
-				Console.WriteLine(2);
 			}
 
 			Type type = typeof(T);
@@ -59,17 +57,13 @@ namespace Serializer {
 
 				String content = fieldValue[whereIsContent];
 				Object v = content;
-				Console.WriteLine(info.FieldType);
 				if(info.FieldType == typeof(int)) {
-					Console.WriteLine("this is a integer");
 					v = Convert.ToInt32(v);
 				}
 				else if(info.FieldType == typeof(double)) {
-					Console.WriteLine("this is a double");
 					v = Convert.ToDouble(v);
 				}
 				else if(info.FieldType == typeof(bool)) {
-					Console.WriteLine("this is a boolean");
 					v = Convert.ToBoolean(v);
 				}
 

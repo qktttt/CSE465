@@ -49,33 +49,35 @@ char* ToPigLatin(char * word) {
 	int length = 0; // this is the length of string
 	while(word[length] != '\0')
 		length++;
-	bool calStart = isupper(word[0]));
+	bool calStart = isupper(word[0]);
 	if(isVowel(word[0], true)) {
 		strcpy(wordCopy, word);
 		strcat(wordCopy, "way");
 	} else {
 		int moveStart = 0;
 		int moveEnd = 0;
-		while(isVowel(word[moveEnd], moveEnd == 0) 
-			and moveEnd < length) {
+		while(!isVowel(word[moveEnd], moveEnd == 0) 
+			&& moveEnd < length) {
 			moveEnd++;
 		}
 		int pointer = 0;
 		for(int i = moveEnd; i < length; i++) {
-			wordCopy[pointer++] = word[i];
+			wordCopy[pointer++] = tolower(word[i]);
 		}
 		for(int i = 0; i < moveEnd; i++) {
-			wordCopy[pointer++] = word[i];
+			wordCopy[pointer++] = tolower(word[i]);
 		}
-		strcat(wordCopy, "ay");
+		wordCopy[pointer++] = 'a';
+		wordCopy[pointer++] = 'y';
+		wordCopy[pointer] = '\0';
 	}
 	strcpy(word, wordCopy);
-	if(calStart) word[0] = toUpper(word[0]);
+	if(calStart) word[0] = toupper(word[0]);
 	return word;
 }
 
 bool isVowel(char c, bool isStart) {
-	if(isStart and (c == 'y' or c == 'Y') )
+	if(!isStart and (c == 'y' or c == 'Y') )
 		return true;
 	return (c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u') or 
 	(c == 'A' || c == 'E' || c == 'I' || c == 'O' || c == 'U');
